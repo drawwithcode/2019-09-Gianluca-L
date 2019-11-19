@@ -68,7 +68,12 @@ function draw() {
   //rotateY(90);
   //rotateY(frameCount);
 
-  rotateY(90 + rotationY*3);
+  if (shaking == false) {
+    rotateY(90 + rotationY*3);
+  } else {
+    rotateY(90);
+  }
+
   //rotateX(-rotationX);
 
   if (shaking == false) {
