@@ -1,6 +1,5 @@
 var img;
 var img01, img02, img03, img04, img05, img06, img07, img08, img09, img10, img11, img12, img13, img14, img15, img16, img17, img18, img19, img20;
-var myText;
 var instructions_2;
 var value = 0;
 var shaking = false;
@@ -15,6 +14,7 @@ var value = 0;
 function setup() {
   createCanvas(windowWidth, windowHeight, WEBGL)
   background(50);
+  // 20 texture for 20 different answers
   img01 = loadImage('assets/01_as i see it yes.png');
   img02 = loadImage('assets/02_it is certain.png');
   img03 = loadImage('assets/03_it is decidedly so.png');
@@ -35,6 +35,7 @@ function setup() {
   img18 = loadImage('assets/18_my sources say no.png');
   img19 = loadImage('assets/19_outlook not so good.png');
   img20 = loadImage('assets/20_very doubtful.png');
+
   frameRate(30);
   angleMode(DEGREES);
 
@@ -45,42 +46,23 @@ function setup() {
 }
 
 function draw() {
-  // put drawing code here
-  //background(50);
-
-  //ambientLight(255);
-  //lightFalloff(1, 0, 0);
-  //pointLight(255, 255, 255, 200, 0, 200);
-
-  //   let dirX = (mouseX / width - 0.5) * 2;
-  // let dirY = (mouseY / height - 0.5) * 2;
-  // directionalLight(250, 250, 250, -dirX, -dirY, -1);
-  //lights();
-
-  // specularMaterial(250);
-  // shininess(1);
-
 
   noStroke();
   fill(0);
 
-  //rotateY(-90);
-  //rotateY(90);
-  //rotateY(frameCount);
-
   if (shaking == false) {
+    // rotate the sphere with the gyroscope
     rotateY(90 + rotationY*3);
   } else {
+    // frontal position when the user gets the answer
     rotateY(90);
   }
-
-  //rotateX(-rotationX);
-
+  // texture without answer
   if (shaking == false) {
     texture(img);
     sphere(width/2.46, 40, 40);
   }
-
+  // timer to reset shake function
   if (frameCount % 30 == 0 && timer > 0 && shaking == true) {
     timer--;
     instructions_2.html('New question in: ' + timer);
@@ -91,24 +73,10 @@ function draw() {
     timer = 7;
     instructions_2.html('Ask a Yes/No question, then shake the Magic 8 Ball to get your answer!');
   }
-
-  // console.log('timer: ' + timer);
-  // console.log('value: ' + value);
-
-
-  // fill(255-value);
-  // textSize(90);
-  // textAlign(CENTER);
-  // text(value,width/2,height/2+30)
-
-  myText = createDiv();
-  myText.style('position: absolute; bottom: -5%; left: 20%; width: 60vw; height: 10vh; color: white; text-align: center; font-family: Helvetica; font-size: 90');
-
 }
 
-
 function deviceShaken() {
-  //alert("Shaken");
+  // random answer when the user shakes the phone
   var answers = [img01, img02, img03, img04, img05, img06, img07, img08, img09, img10, img11, img12, img13, img14, img15, img16, img17, img18, img19, img20];
   value += 31;
   if (value = 30 && timer == 7) {
@@ -118,32 +86,10 @@ function deviceShaken() {
   }
 }
 
-function touchStarted() {
-  pointLight(255, 255, 255, mouseX, mouseY, 200);
-  // prevent default
-  return false;
-}
-
-// function mouseClicked() {
-//   //alert("Shaken");
-//   var answers = [img01, img02, img03, img04, img05, img06, img07, img08, img09, img10, img11, img12, img13, img14, img15, img16, img17, img18, img19, img20];
-//   value += 31;
-//   if (value > 30 && timer == 7) {
-//     shaking = true;
-//     texture(random(answers));
-//     sphere(width/2.46, 24, 24);
-//   }
-// }
-
-
 function touchMoved() {
   return false;
 }
 
 function touchEnded(event) {
   DeviceOrientationEvent.requestPermission()
-}
-
-function mouseIsPressed() {
-
 }
